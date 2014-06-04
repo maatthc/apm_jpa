@@ -25,9 +25,10 @@
            <delete dir="${tmp.dir}" />
            <mkdir dir="${tmp.dir}" />
            <mkdir dir="${tmp.dir}/WEB-INF/classes/META-INF"/>
+		   <mkdir dir="${tmp.dir}/WEB-INF/lib"/>
         </target>
  
-        <target name="build" depends="init">
+        <target name="pre-build" depends="init">
            <javac includeantruntime="false" srcdir="${src.dir}/jpa:${src.dir}/servlets" destdir="${tmp.dir}/WEB-INF/classes"  includes="*.java" classpathref="jboss.classpath">
            		<classpath refid="was.classpath" />
            	</javac>
@@ -38,18 +39,24 @@
            <copy file="${src.dir}/jboss-deployment-structure.xml" tofile="${tmp.dir}/WEB-INF/jboss-deployment-structure.xml"/>
            <copy file="${src.dir}/web.xml" tofile="${tmp.dir}/WEB-INF/web.xml"/>
 
-           <!-- Make Sure that the persistence.xml file is placed inside "${war.name}/WEB-INF/classes/META-INF" directory -->
-           <copy file="${src.dir}/persistence.xml" tofile="${tmp.dir}/WEB-INF/classes/META-INF/persistence.xml"/>
-       	
-
+        </target>
+		
+		<target name="build" >
            <jar jarfile="${tmp.dir}/${war.name}" basedir="${tmp.dir}" compress="true" />
            <copy file="${tmp.dir}/${war.name}" tofile="${output.dir}/${war.name}"/>
-
            <delete includeEmptyDirs="true">
               <fileset dir="${tmp.dir}"/>
            </delete>
-        </target>
- 
+		</target>
+		<target name="openjpa" depends="pre-build">
+			<copy file="${src.dir}/persistence_openjpa.xml" tofile="${tmp.dir}/WEB-INF/classes/META-INF/persistence.xml"/>
+			<antcall target="build"/>
+		</target>
+		<target name="toplink" depends="pre-build">		
+			<copy file="${src.dir}/persistence_toplink.xml" tofile="${tmp.dir}/WEB-INF/classes/META-INF/persistence.xml"/>
+			<copy file="toplink/jlib/eclipselink.jar" tofile="${tmp.dir}/WEB-INF/lib/eclipselink.jar"/>
+			<antcall target="build"/>
+		</target>		
         <target name="deploy" depends="build">
             <echo message="*******************  Deploying the WAR file ${war.name} *********************" />
             <echo message="********** ${output.dir}/${war.name} to ${jboss.home}/standalone/deployments **********" />
