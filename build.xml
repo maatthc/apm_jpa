@@ -1,0 +1,63 @@
+<project name="JPA_BASIC_Demo" default="deploy">
+<property name="appserver.home" value="C:\Program Files\IBM\WebSphere\AppServer" />
+<property name="jboss.module.dir" value="${appserver.home}/lib" />
+<property name="was.module.dir" value="${appserver.home}/lib" />
+<property name="basedir" value="." />
+<property name="tmp.dir" value="tmp" />
+<property name="output.dir" value="build" />
+<property name="src.dir" value="src" />
+<property name="war.name" value="JPA_BASIC_Demo.war" />
+ 
+   <path id="was.classpath">
+     <fileset dir="${was.module.dir}">
+        <include name="**/*.jar"/>
+     </fileset>
+   </path>
+	<path id="jboss.classpath">
+	     <fileset dir="${jboss.module.dir}">
+	        <include name="**/*.jar"/>
+	     </fileset>
+	   </path>
+ 
+        <target name="init">
+           <delete dir="${output.dir}" />
+           <mkdir dir="${output.dir}" />
+           <delete dir="${tmp.dir}" />
+           <mkdir dir="${tmp.dir}" />
+           <mkdir dir="${tmp.dir}/WEB-INF/classes/META-INF"/>
+        </target>
+ 
+        <target name="build" depends="init">
+           <javac includeantruntime="false" srcdir="${src.dir}/jpa:${src.dir}/servlets" destdir="${tmp.dir}/WEB-INF/classes"  includes="*.java" classpathref="jboss.classpath">
+           		<classpath refid="was.classpath" />
+           	</javac>
+           <copy todir="${tmp.dir}/WEB-INF/classes">
+                <fileset dir="${src.dir}" includes="**/*.java"/>
+           </copy>
+           <copy file="${src.dir}/index.jsp" tofile="${tmp.dir}/index.jsp"/>
+           <copy file="${src.dir}/jboss-deployment-structure.xml" tofile="${tmp.dir}/WEB-INF/jboss-deployment-structure.xml"/>
+           <copy file="${src.dir}/web.xml" tofile="${tmp.dir}/WEB-INF/web.xml"/>
+
+           <!-- Make Sure that the persistence.xml file is placed inside "${war.name}/WEB-INF/classes/META-INF" directory -->
+           <copy file="${src.dir}/persistence.xml" tofile="${tmp.dir}/WEB-INF/classes/META-INF/persistence.xml"/>
+       	
+
+           <jar jarfile="${tmp.dir}/${war.name}" basedir="${tmp.dir}" compress="true" />
+           <copy file="${tmp.dir}/${war.name}" tofile="${output.dir}/${war.name}"/>
+
+           <delete includeEmptyDirs="true">
+              <fileset dir="${tmp.dir}"/>
+           </delete>
+        </target>
+ 
+        <target name="deploy" depends="build">
+            <echo message="*******************  Deploying the WAR file ${war.name} *********************" />
+            <echo message="********** ${output.dir}/${war.name} to ${jboss.home}/standalone/deployments **********" />
+            <copy todir="${jboss.home}/standalone/deployments/">
+                <fileset dir="${output.dir}/">
+                  <include name="${war.name}"/>
+                </fileset>
+            </copy>
+            <echo message="*******************  Deployed Successfully   *********************" />
+        </target>
+</project>

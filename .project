@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>JPA_BASIC_Demo</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>classes</name>
+			<type>2</type>
+			<location>C:/temp/OpenJPA/EJBWEB/tmp/WEB-INF/classes</location>
+		</link>
+		<link>
+			<name>jpa</name>
+			<type>2</type>
+			<location>C:/temp/OpenJPA/EJBWEB/src/jpa</location>
+		</link>
+		<link>
+			<name>servlets</name>
+			<type>2</type>
+			<location>C:/temp/OpenJPA/EJBWEB/src/servlets</location>
+		</link>
+	</linkedResources>
+</projectDescription>
