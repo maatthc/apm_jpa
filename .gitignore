@@ -1,5 +1,6 @@
 build
 toplink
+hibernate
 *.backup
 *dump
 *.jar

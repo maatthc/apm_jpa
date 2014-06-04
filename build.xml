@@ -56,7 +56,22 @@
 			<copy file="${src.dir}/persistence_toplink.xml" tofile="${tmp.dir}/WEB-INF/classes/META-INF/persistence.xml"/>
 			<copy file="toplink/jlib/eclipselink.jar" tofile="${tmp.dir}/WEB-INF/lib/eclipselink.jar"/>
 			<antcall target="build"/>
-		</target>		
+		</target>
+
+	<target name="hibernate" depends="pre-build">		
+			<copy file="${src.dir}/persistence_hibernate.xml" tofile="${tmp.dir}/WEB-INF/classes/META-INF/persistence.xml"/>
+			<copy file="hibernate/hibernate3.jar" tofile="${tmp.dir}/WEB-INF/lib/hibernate3.jar"/>
+			<copy file="hibernate/hibernate-entitymanager-3.3.1.ga.jar" tofile="${tmp.dir}/WEB-INF/lib/hibernate-entitymanager-3.3.1.ga.jar"/>
+			<copy file="hibernate/hibernate-jpa-2.0-api-1.0.1.Final.jar" tofile="${tmp.dir}/WEB-INF/lib/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
+			<copy file="hibernate/lib/required/antlr-2.7.6.jar" tofile="${tmp.dir}/WEB-INF/lib/antlr-2.7.6.jar"/>
+			<copy file="hibernate/lib/required/commons-collections-3.1.jar" tofile="${tmp.dir}/WEB-INF/lib/commons-collections-3.1.jar"/>
+			<copy file="hibernate/lib/required/dom4j-1.6.1.jar" tofile="${tmp.dir}/WEB-INF/lib/dom4j-1.6.1.jar"/>
+			<copy file="hibernate/lib/required/javassist-3.4.GA.jar" tofile="${tmp.dir}/WEB-INF/lib/javassist-3.4.GA.jar"/>
+			<copy file="hibernate/lib/required/jta-1.1.jar" tofile="${tmp.dir}/WEB-INF/lib/jta-1.1.jar"/>
+			<copy file="hibernate/lib/required/slf4j-api-1.4.2.jar" tofile="${tmp.dir}/WEB-INF/lib/slf4j-api-1.4.2.jar"/>
+			
+			<antcall target="build"/>
+		</target>
         <target name="deploy" depends="build">
             <echo message="*******************  Deploying the WAR file ${war.name} *********************" />
             <echo message="********** ${output.dir}/${war.name} to ${jboss.home}/standalone/deployments **********" />
