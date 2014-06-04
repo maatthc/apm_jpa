@@ -69,6 +69,7 @@
 			<copy file="hibernate/lib/required/javassist-3.4.GA.jar" tofile="${tmp.dir}/WEB-INF/lib/javassist-3.4.GA.jar"/>
 			<copy file="hibernate/lib/required/jta-1.1.jar" tofile="${tmp.dir}/WEB-INF/lib/jta-1.1.jar"/>
 			<copy file="hibernate/lib/required/slf4j-api-1.4.2.jar" tofile="${tmp.dir}/WEB-INF/lib/slf4j-api-1.4.2.jar"/>
+			<copy file="hibernate/jboss-common-4.0.2.jar" tofile="${tmp.dir}/WEB-INF/lib/jboss-common-4.0.2.jar"/>
 			
 			<antcall target="build"/>
 		</target>
